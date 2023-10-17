@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ユーザー登録と一覧</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- jQuery、jQuery UI、BootstrapのCDNを読み込み -->
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+
+<style>
+    /* 各行にマージンを追加 */
+   .form-row {
+       margin-bottom: 20px; /* 例: 20pxのマージンを追加 */
+    }
+
+</style>
+    
+<script type="text/javascript" th:inline="javascript">
+	var errorMessage = /*[[${errorMessage}]]*/;
+	
+	var listUser = /*[[${listUser}]]*/;
+
+	$(document).ready(function() {
+		
+		$("#errorMassages").text(errorMessage);
+		
+		// ユーザー登録ボタンクリック時の処理
+		$('div').on('click', '.registerUser-button', function(event) {
+			// 登録処理を実行
+			var userId = $('#userId').val();
+			var username = $('#username').val();
+			var email = $('#email').val();
+	
+			if (userId == '' || username == '' || email == '') {
+				alert('全てのフィールドを入力してください');
+				event.preventDefault(); // フォーム送信を中止
+				return;
+			} else {
+				registerUser();
+			}
+		});
+		
+		// ユーザー編集ボタンクリック時の処理
+		$('div').on('click', '.updateUser-button', function(event) {
+			// 登録処理を実行
+			var username = $('#username').val();
+			var email = $('#email').val();
+	
+			if (username == '' || email == '') {
+				alert('全てのフィールドを入力してください');
+				event.preventDefault(); // フォーム送信を中止
+				return;
+			} else {
+				updateUser();
+			}
+		});
+		
+		// ユーザー検索ボタンクリック時の処理
+		$('div').on('click', '.selectUser-button', function(event) {
+			// 検索処理を実行
+			selectUser();
+		});
+
+		// リセットボタンクリック時の処理
+		$('div').on('click', '.resetUser-button', function(event) {
+			$('form').trigger("reset");
+		});
+		
+		// ユーザー削除(物理)ボタンクリック時の処理
+		$('table').on('click', '.deleteP-button', function(event) {
+			var index = $('.deleteP-button').index(this);
+			var uID = listUser[index].userID;
+			if (confirm('ユーザー[' + uID + ']を削除しますか？')) {
+				// 削除処理を実行
+				editUser('deleteP', uID);
+			}
+		});
+
+		// ユーザー削除(論理)ボタンクリック時の処理
+		$('table').on('click', '.deleteL-button', function(event) {
+			var index = $('.deleteL-button').index(this);
+			var uID = listUser[index].userID;
+			if (confirm('ユーザー[' + uID + ']を削除しますか？')) {
+				// 削除処理を実行
+				editUser('deleteL', uID);
+			}
+		});
+
+		// ユーザー編集ボタンクリック時の処理
+		$('td').on('click', '.edit-button', function(event) {
+			// 編集画面へ
+			editUser('edit', this.innerText);
+		});
+	});
+	
+	function registerUser(){
+		$('#__function').val('insert');
+		$('form').submit();
+	}
+	
+	function updateUser(){
+		$('#__function').val('update');
+		$('form').submit();
+	}
+	
+	function selectUser(){
+		$('#__function').val("select");
+		$('form').submit();
+	}
+	
+	function editUser(func, uID){
+		$('#__function').val(func);
+		$('#__userID').val(uID);
+		
+		$('form').submit();
+	}
+</script>
+</head>
+<body>
+	<form th:action="@{/user}" method="post">
+		<input type="hidden" id="__function" name="__function" th:value="${__function}"/>
+		<input type="hidden" id="__userID" name="__userID" th:value="${__userID}"/>
+		<div class="container" th:if="${errorMessage}" >
+			<div class="row form-row">
+				<div class="col-md-12 alert alert-danger">
+					<p id="errorMassages" class="error-massages">error! </p>
+				</div>
+			</div>
+        </div>
+        
+		<div class="container" th:if="${objUser}" th:object="${objUser}" >
+			<h2 th:if="${__function} eq 'new' ">ユーザー登録</h2>
+			<h2 th:if="${__function} eq 'edit' ">ユーザー編集</h2>
+			<div class="row form-row">
+				<div class="col-md-6">
+					<label for="userId">ユーザーID:</label> 
+					<input type="text" id="userId" th:field="*{userID}" class="form-control"  th:if="${__function} eq 'new' "/>
+					<input type="text" id="userId" th:field="*{userID}" class="form-control" readonly th:if="${__function} eq 'edit' " />
+				</div>
+				<div class="col-md-6">
+					<label for="username">ユーザー名:</label> 
+					<input type="text" id="userName" th:field="*{userName}" class="form-control" />
+				</div>
+			</div>
+			<div class="row form-row">
+				<div class="col-md-6">
+					<label for="email">メールアドレス:</label> 
+					<input type="text" id="email" th:field="*{email}" class="form-control" />
+				</div>
+			</div>
+			<div class="row form-row">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+				<button type="button" class="btn btn-primary registerUser-button" th:if="${__function} eq 'new' ">登録</button>
+				<button type="button" class="btn btn-primary updateUser-button" th:if="${__function} eq 'edit' ">編集</button>
+				<button type="button" class="btn btn-secondary selectUser-button">検索</button>
+				<button type="button" class="btn btn-secondary resetUser-button">リセット</button>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>
+		
+		<div class="container" th:if="${listUser}" >
+			<h2>ユーザー一覧</h2>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>ユーザーID</th>
+						<th>ユーザー名</th>
+						<th>メールアドレス</th>
+						<th>削除フラグ</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					<!-- ユーザー一覧を表示する部分 -->
+					<tr th:each="user ,stat : ${listUser}">
+						<td th:text="${stat.count}"></td>
+						<td><span th:id="'user_' + ${stat.count}" th:text="${user.userID}" class="btn btn-primary edit-button"></span></td>
+						<td th:text="${user.userName}"></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.delFlgText}"></td>
+						<td>
+							<button class="btn btn-danger deleteP-button">物理削除</button>
+							<button class="btn btn-warning deleteL-button">論理削除</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+
+</body>
+</html>
