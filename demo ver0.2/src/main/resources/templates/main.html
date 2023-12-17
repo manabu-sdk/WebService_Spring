@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>WEB Asset Portal System</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- jQuery、jQuery UI、BootstrapのCDNを読み込み -->
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+<style>
+.header {
+	height: 120px;
+	border-top: solid 4px #8a2be2;
+}
+
+div.Banner {
+	height: 120px;
+	background-image: url(../images/banner.png);
+	background-repeat: repeat-x;
+}
+
+p.userInfo {
+	width: 80px;
+	float: right;
+	color: #000000;
+	background-color: #88dce0;
+}
+
+.LayoutMenu {
+	height: 600px;
+}
+
+.LayoutContents {
+	height: 600px;
+}
+
+.LayoutRight {
+	float: right;
+}
+
+.LayoutLeft {
+	float: left;
+}
+
+div.LayoutClear {
+	clear: both;
+}
+
+/* Hamburger menu */
+.hamburger {
+	background-color: #f0f0f0;
+	border-radius: 50%;
+	position: fixed;
+	top: 135px;
+	left: 10px;
+	border: 0;
+	cursor: pointer;
+	width: 32px;
+	height: 32px;
+}
+
+.hamburger:focus {
+	outline: 0;
+}
+
+.hamburger .line {
+	background-color: #000;
+	display: block;
+	margin: 4px auto;
+	height: 2px;
+	width: 20px;
+	transition: all .1s ease-in;
+}
+
+.hamburger.open .line:nth-child(1) {
+	transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger.open .line:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger.open .line:nth-child(3) {
+	transform: translateY(-6px) rotate(-45deg);
+}
+</style>
+
+<script type="text/javascript" th:inline="javascript">
+
+	$(document).ready(function() {
+		$("#btnHamburger").toggleClass('open'); // ハンバーガーメニューボタン（初期はオープン状態）
+
+	    // ハンバーガーメニューのボタンをクリックする時のイベント処理
+		$('#btnHamburger').on('click', function() {
+		    toggleClasses();// ハンバーガーメニューのオープン／クローズ処理
+		});
+	    
+		// ハンバーガーメニューのオープン／クローズ処理
+		function toggleClasses() {
+			$("#btnHamburger").toggleClass('open'); // ハンバーガーメニューボタン（オープン／クローズ時切り替え）
+		    $("#menu").fadeToggle(500); // メニューを表示するかしないかを切り替え
+		    $("#container").toggleClass("col-xl-9"); // メインコンテンツエリア表示サイズをリセット
+		    $("#container").toggleClass("col-xl-12");
+		}
+
+		setTimeout(toggleClasses, 500);
+		setTimeout(toggleClasses, 100);
+	});
+	
+</script>
+</head>
+<body>
+	<header class="header w-100">
+		<div style="position: relative;">
+			<div class="LayoutLeft Banner w-100">
+				<h1 style="font-size: 40m; color:#FFFFFF;">
+				&nbsp;&nbsp;WEB Asset Portal System
+				</h1>
+				<p class="userInfo text-center" >
+					ADMIN
+				</p>
+			</div>
+		</div>
+	</header>
+	<div class="LayoutClear"></div>
+	<button class="hamburger" id="btnHamburger">
+		<span class="line"></span> 
+		<span class="line"></span> 
+		<span class="line"></span>
+	</button>
+	<nav class="LayoutLeft LayoutMenu col-xl-3" id="menu" style="display: true;">
+		<iframe class="w-100 h-100" src="/menu?userID=ADMIN"></iframe>
+	</nav>
+	<div class="LayoutLeft LayoutContents text-center col-xl-9" id="container" >
+		<iframe id="test" class="w-100 h-100" style="padding: 5px;"  is="x-frame-bypass" src="/blank"></iframe>
+	</div>
+</body>
+</html>

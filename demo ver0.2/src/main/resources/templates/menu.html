@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>WEB Asset Management System Menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/jstree/3.3.12/themes/default/style.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jstree/3.3.12/jstree.min.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+	$(document).ready(function() {
+		
+	});
+		
+	$(function(){
+		$('#treeMenu')
+		  // listen for event
+		  .on('changed.jstree', function (e, data) {
+			  console.log(data.changed.selected);
+			  console.log(data.changed.deselected);
+			  //var i, j, r = [];
+			  //for(i = 0, j = data.selected.length; i < j; i++) {
+		      //	r.push(data.instance.get_node(data.selected[i]).id);
+			  //}
+			  
+			  var obj = data.instance.get_node(data.selected[0]);
+			  if(obj && data.instance.is_leaf(obj) && "#" != obj.a_attr.href){
+				  //alert('Selected: ' + obj.a_attr.href);
+				  //window.open(obj.a_attr.href, obj.id);
+				  window.parent.frames[1].location = obj.a_attr.href;
+			  } else {
+				  if(data.instance.is_open(obj)){
+					  data.instance.close_node(obj);
+				  } else {
+					  data.instance.open_node(obj);
+				  }
+			  }
+		  })
+		  // create the instance
+		  .jstree({ 
+			 'core' : {
+			    "animation" : 0,
+			    "check_callback" : true,
+			    "themes" : { "stripes" : true },
+			    'data' : /*[[${treeMenu}]]*/
+			 },
+			 "plugins" : [
+				    "changed", "state", "types", "wholerow"
+				  ]
+			 });
+	});
+	
+</script>
+</head>
+<body style="padding:5px;"><img src="/images/icon/home.png"></img>&nbsp;&nbsp;WEB資産管理システムメニュー
+	<div id="treeMenu">
+	</div>
+</body>
+</html>
