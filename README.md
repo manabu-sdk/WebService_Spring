@@ -16,5 +16,10 @@ Qiita記事題名：【SE入門編】Spring Tool Suite 4を使ってWEBプロジ
 Qiita記事URL：https://qiita.com/manabu-s/items/b244e9290547f9eb5ec3
 <br>
 
-次のバージョン：ログイン画面及びセッション管理機能の実装。
+demo ver0.3　フォルダー：<br>
+Qiita記事題名：【SE入門編】Spring Tool Suite 4を使ってWEBプロジェクトのログイン画面及びセッション管理機能を実装する。<br>
+Qiita記事URL：https://qiita.com/manabu-s/items/4af32562eae0caf40f28<br>
+<br>
+
+次のバージョン：多言語対応。<br>
 編集中です、しばらくお待ちください。
