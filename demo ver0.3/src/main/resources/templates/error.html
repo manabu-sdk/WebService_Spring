@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Error!</title>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(document).ready(function(){
+    $("#buttonDetails").on("click",function(){
+        $("#divDetails").slideToggle(500);
+    });
+});
+</script>
+</head>
+<body th:if="${errBody}" th:object="${errBody}" >
+	<!-- エラー内容を表示 -->
+	<h1 th:text="*{status}"></h1>
+	<p th:text="*{path}"></p>
+	<p th:text="*{timestamp}"></p>
+	<p th:text="*{message}"></p>
+	<p th:text="*{error}"></p>
+	<p th:text="*{exception}"></p>
+	<button th:if="*{trace}" id="buttonDetails">Details</button>
+	<div id="divDetails" th:text="*{trace}" style="display: none;"></div>
+</body>
+</html>
