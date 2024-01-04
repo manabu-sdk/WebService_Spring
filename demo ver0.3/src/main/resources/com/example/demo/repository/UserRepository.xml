@@ -20,6 +20,9 @@
       UPDATE_USER = #{user.updateUser}
     WHERE USER_ID = #{user.userID}
   </update>
+  <update id="updateLastLoginDateByPK" parameterType="java.lang.String">
+     UPDATE USERS SET LAST_LOGIN_DATE = SYSDATE WHERE USER_ID = #{userID}
+  </update>
   <resultMap id="ResultUserMap" type="com.example.demo.bean.User">
     <id column="USER_ID" jdbcType="VARCHAR" property="userID" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
