@@ -8,9 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.common.util.AppLogger;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 @Controller
 public class MainController {
 
