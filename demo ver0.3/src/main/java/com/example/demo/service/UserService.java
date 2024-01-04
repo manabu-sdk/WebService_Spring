@@ -84,6 +84,10 @@ public class UserService {
 		return userRepo.updateByPK(user);
 	}
 
+	public int updateLastLoginDateByPK(String userID) {
+		return userRepo.updateLastLoginDateByPK(userID);
+	}
+	
 	public int insertUser(User user) {
 		return userRepo.insert(user);
 	}
