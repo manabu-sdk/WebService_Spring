@@ -36,6 +36,7 @@ public class LoginController {
 				httpSession.setAttribute("userName", user.getUserName());
 				model.addObject("userID", userID);
 				model.setViewName("main");
+				userService.updateLastLoginDateByPK(userID);
 			} else {
 				model.setViewName("login");
 				model.addObject("errorLogin", "ユーザーIDまたはパスワードが正しくありません。");
