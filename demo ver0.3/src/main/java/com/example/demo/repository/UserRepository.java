@@ -19,7 +19,9 @@ public interface UserRepository {
 	int deleteByPKPhysical(@Param("userID") String userID);
 	
 	int updateByPK(@Param("user") User user);
-
+	
+	int updateLastLoginDateByPK(@Param("userID") String userID);
+	
 	List<User> selectByCondition(@Param("user") User user);
 
 	User selectByPK(@Param("userID") String userID);
