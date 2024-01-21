@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>WEB Asset Portal System</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- jQuery、jQuery UI、BootstrapのCDNを読み込み -->
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+<style>
+.header {
+	height: 120px;
+	border-top: solid 4px #8a2be2;
+}
+
+div.Banner {
+	height: 120px;
+	background-image: url(../images/banner.png);
+	background-repeat: repeat-x;
+}
+
+p.userInfo {
+	width: 80px;
+	float: right;
+	color: #000000;
+	background-color: #88dce0;
+}
+
+.LayoutContents {
+	height: 600px;
+}
+
+.LayoutRight {
+	float: right;
+}
+
+.LayoutLeft {
+	float: left;
+}
+
+div.LayoutClear {
+	clear: both;
+}
+
+/* Hamburger menu */
+.hamburger {
+	background-color: #f0f0f0;
+	border-radius: 50%;
+	position: fixed;
+	top: 135px;
+	left: 10px;
+	border: 0;
+	cursor: pointer;
+	width: 32px;
+	height: 32px;
+}
+
+.hamburger:focus {
+	outline: 0;
+}
+
+.hamburger .line {
+	background-color: #000;
+	display: block;
+	margin: 4px auto;
+	height: 2px;
+	width: 20px;
+	transition: all .1s ease-in;
+}
+
+.hamburger.open .line:nth-child(1) {
+	transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger.open .line:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger.open .line:nth-child(3) {
+	transform: translateY(-6px) rotate(-45deg);
+}
+</style>
+
+<script type="text/javascript" th:inline="javascript">
+	var userID = /*[[${userID}]]*/;
+	
+	var userBrowser = "chrome";
+
+    var userAgent = window.navigator.userAgent.toLowerCase();
+    
+    var contentsHeight = 600;
+
+    // ブラウザ情報を確認
+    if (userAgent.indexOf('safari') != -1 && userAgent.indexOf('chrome') === -1 && userAgent.indexOf('edge') === -1 && userAgent.indexOf('edg') === -1){ // ブラウザがSafariの場合 
+    	userBrowser = "safari";
+    } else if (userAgent.indexOf('chrome') != -1 && userAgent.indexOf('edge') === -1 && userAgent.indexOf('edg') === -1){ // ブラウザがchromeの場合 
+    	userBrowser = "chrome";
+    } else if(userAgent.indexOf("edg") != -1 || userAgent.indexOf("edge") != -1) { //ブラウザがEdgeの場合
+    	userBrowser = "Edge";
+    } else if(userAgent.indexOf('msie') != -1 || userAgent.indexOf('trident') != -1) { //ブラウザがIEの場合
+    	userBrowser = "IE";
+    }
+    
+	$(document).ready(function() {
+		$("#btnHamburger").toggleClass('open'); // ハンバーガーメニューボタン（初期はオープン状態）
+
+	    // ハンバーガーメニューのボタンをクリックする時のイベント処理
+		$('#btnHamburger').on('click', function() {
+		    toggleClasses();// ハンバーガーメニューのオープン／クローズ処理
+		});
+	    
+		// ハンバーガーメニューのオープン／クローズ処理
+		function toggleClasses() {
+			$("#btnHamburger").toggleClass('open'); // ハンバーガーメニューボタン（オープン／クローズ時切り替え）
+		    $("#menu").fadeToggle(500); // メニューを表示するかしないかを切り替え
+		    $("#container").toggleClass("col-xl-9"); // メインコンテンツエリア表示サイズをリセット
+		    $("#container").toggleClass("col-xl-12");
+		}
+
+		setTimeout(toggleClasses, 500);
+		setTimeout(toggleClasses, 100);
+		
+	    $(window).on("load", function () {
+	    	resizeContents();
+	    });
+
+	    $(window).resize(function() {
+	    	resizeContents();
+	    });
+	});
+	
+	function resizeContents(){
+        if(userBrowser == "safari") {
+        	
+        } else if(userBrowser == "chrome" || userBrowser == "Edge") {
+        	contentsHeight = this.innerHeight  - 120 - 10; // 120 : Banner ; 10 : Margin
+	        console.log(`contentsHeight:${contentsHeight}`);
+        } else if(userBrowser == "IE") {
+        	
+        }
+    	$(".LayoutContents").css('height', contentsHeight + 'px');
+	}
+</script>
+</head>
+<body>
+	<header class="header w-100">
+		<div style="position: relative;">
+			<div class="LayoutLeft Banner w-100">
+				<h1 style="font-size: 40m; color:#FFFFFF;">
+				&nbsp;&nbsp;WEB Asset Portal System
+				</h1>
+				<p class="userInfo text-center" th:text="*{userID}" >
+				</p>
+			</div>
+		</div>
+	</header>
+	<div class="LayoutClear"></div>
+	<button class="hamburger" id="btnHamburger">
+		<span class="line"></span> 
+		<span class="line"></span> 
+		<span class="line"></span>
+	</button>
+	<nav class="LayoutLeft LayoutContents col-xl-3" id="menu" style="display: true;">
+		<iframe class="w-100 h-100" src="/menu"></iframe>
+	</nav>
+	<div class="LayoutLeft LayoutContents text-center col-xl-9" id="container" >
+		<iframe id="test" class="w-100 h-100" style="padding: 5px;"  is="x-frame-bypass" src="/blank"></iframe>
+	</div>
+</body>
+</html>

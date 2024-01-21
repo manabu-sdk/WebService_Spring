@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.UserMenuRepository">
+  <resultMap id="ResultTreeMenuMap" type="com.example.demo.bean.TreeMenu">
+    <id column="CATEGORY" jdbcType="VARCHAR" property="id" />
+    <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="text" />
+    <result column="CATEGORY_PID" jdbcType="VARCHAR" property="parent" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <result column="ACTION" jdbcType="VARCHAR" property="action" />
+    <result column="ICON_TYPE" jdbcType="VARCHAR" property="iconType" />
+    <result column="ICON_IMAGE" jdbcType="VARCHAR" property="icon" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="LEVEL" jdbcType="VARCHAR" property="level" />
+  </resultMap>
+  <select id="selectMenuByUserID" parameterType="java.lang.String" resultMap="ResultTreeMenuMap">
+		SELECT
+		    T.CATEGORY,
+		    T.CATEGORY_NAME,
+		    T.CATEGORY_PID,
+		    T.POSITION,
+		    T.ACTION,
+		    T.ICON_TYPE,
+		    T.ICON_IMAGE,
+		    T.TYPE,
+		    LEVEL
+		FROM
+		    (
+		        SELECT
+		            C.CATEGORY,
+		            C.CATEGORY_NAME,
+		            C.CATEGORY_PID,
+		            C.POSITION,
+		            '#'  ACTION,
+		            '01' ICON_TYPE,
+		            I.ICON_IMAGE,
+		            'C'  TYPE
+		        FROM
+		            CATEGORY C
+		            LEFT JOIN ICON     I ON '01' = I.ICON_TYPE
+		        UNION
+		        SELECT
+		            RM.MENU_ID,
+		            M.MENU_NAME,
+		            MC.CATEGORY,
+		            M.POSITION,
+		            NVL(M.ACTION,'#') ACTION,
+		            M.ICON_TYPE,
+		            I.ICON_IMAGE,
+		            'M' TYPE
+		        FROM
+		                 USERS U
+		            JOIN ROLE_MENU     RM ON U.ROLE = RM.ROLE
+		            JOIN MENU          M ON RM.MENU_ID = M.MENU_ID
+		            JOIN MENU_CATEGORY MC ON M.MENU_ID = MC.MENU_ID
+		            JOIN CATEGORY      C ON MC.CATEGORY = C.CATEGORY
+		            LEFT JOIN ICON          I ON M.ICON_TYPE = I.ICON_TYPE
+		        WHERE
+		                U.USER_ID = #{userID}
+		            AND M.IS_AVAILABLE = '1'
+		    ) T
+		START WITH
+		    T.CATEGORY_PID = '#'
+		CONNECT BY
+		    PRIOR T.CATEGORY = T.CATEGORY_PID
+		ORDER SIBLINGS BY
+		    POSITION
+  </select>
+</mapper>
