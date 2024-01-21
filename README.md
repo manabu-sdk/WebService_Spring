@@ -21,5 +21,10 @@ Qiita記事題名：【SE入門編】Spring Tool Suite 4を使ってWEBプロジ
 Qiita記事URL：https://qiita.com/manabu-s/items/4af32562eae0caf40f28<br>
 <br>
 
+demo ver0.4　フォルダー：<br>
+Qiita記事題名：【SE入門編】【番外編】WEBサイトの表示エリアを動的に設定（WEBブラウザのサイズを変更するたび表示エリアを動的に変更する）。<br>
+Qiita記事URL：https://qiita.com/manabu-s/items/4af32562eae0caf40f28<br>
+<br>
+
 次のバージョン：多言語対応。<br>
 編集中です、しばらくお待ちください。
