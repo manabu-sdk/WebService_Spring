@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ログイン</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- jQuery、BootstrapのCDNを読み込み -->
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+<script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+	var errorMessage = /*[[${errorMessage}]]*/
+
+	$(document).ready(function() {
+	    // フォーカスを失ったときのイベントを追加
+	    $('#userID').blur(function() {
+	        // 入力された値を取得
+	        var enteredValue = $(this).val();
+	        
+	        // Ajaxリクエストを送信
+	        $.ajax({
+	            url: 'ajaxFindLanguage',  // サーバーのエンドポイントを指定
+	            type: 'POST',  // リクエストの種類を指定
+	            dataType: 'json',
+	            data: { userID: enteredValue },  // サーバーに送信するデータを指定
+	            success: function(response) {
+	                // サーバーからの応答をコンソールに表示
+	                console.log('サーバーからの応答:', response);
+	                if(response != "" && response.lang != ""){
+	                	$("#language").find("option[value='" + response.lang + "']").prop("selected", true);
+	                }
+	            },
+	            error: function(error) {
+	                console.log('エラー:', error);
+	            }
+	        });
+	    });
+	});
+</script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Login</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- ログインエラーメッセージを表示するエリア -->
+                        <div th:if="${errorMessage}" th:text="*{errorMessage}" class="alert alert-danger" role="alert"></div>
+                        <form th:action="@{/login}" method="post">
+                            <div class="form-group">
+                                <label for="userID">User ID:</label>
+                                <input type="text" id="userID" name="userID" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <label for="language">Language:</label>
+                                <select id="language" name="lang" class="form-control">
+                                    <option value="en" >English</option>
+                                    <option value="ja" >Japanese</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

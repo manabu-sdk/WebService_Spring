@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.UserRepository">
+  <insert id="insert" parameterType="com.example.demo.bean.User">
+    INSERT INTO USERS (USER_ID,USER_NAME,PASSWORD,EMAIL,ROLE,LAST_LOGIN_DATE,DEL_FLG,CREATE_DATE,CREATE_USER,UPDATE_DATE,UPDATE_USER) 
+    VALUES (#{user.userID}, #{user.userName}, #{user.password}, #{user.email}, #{user.role}, null, '0', sysdate, #{user.createUser}, sysdate, #{user.updateUser})
+  </insert>
+  <delete id="deleteByPKLogical" parameterType="java.lang.String">
+     UPDATE USERS SET DEL_FLG = '1' WHERE USER_ID = #{userID}
+  </delete>
+  <delete id="deleteByPKPhysical" parameterType="java.lang.String">
+     DELETE USERS WHERE USER_ID = #{userID}
+  </delete>
+  <update id="updateByPK" parameterType="com.example.demo.bean.User">
+    UPDATE USERS
+    SET USER_NAME = #{user.userName},
+      EMAIL = #{user.email},
+      ROLE = #{user.role, jdbcType=VARCHAR},
+      UPDATE_DATE = sysdate,
+      UPDATE_USER = #{user.updateUser}
+    WHERE USER_ID = #{user.userID}
+  </update>
+  <update id="updateLastLoginDateAngLangByPK" parameterType="java.lang.String">
+     UPDATE USERS SET LAST_LOGIN_DATE = SYSDATE, LANG = #{lang} WHERE USER_ID = #{userID}
+  </update>
+  <resultMap id="ResultUserMap" type="com.example.demo.bean.User">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userID" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="ROLE" jdbcType="VARCHAR" property="role" />
+    <result column="LAST_LOGIN_DATE" jdbcType="VARCHAR" property="lastLoginDate" />
+    <result column="LANG" jdbcType="VARCHAR" property="lang" />
+    <result column="DEL_FLG" jdbcType="VARCHAR" property="delFlg" />
+    <result column="DEL_FLG_TEXT" jdbcType="VARCHAR" property="delFlgText" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <select id="selectByCondition" parameterType="com.example.demo.bean.User" resultMap="ResultUserMap">
+		SELECT
+		    USER_ID,
+		    USER_NAME,
+		    PASSWORD,
+		    EMAIL,
+		    ROLE,
+		    TO_CHAR(LAST_LOGIN_DATE, 'YYYY/MM/DD HH24:MI:SS') LAST_LOGIN_DATE,
+		    LANG,
+		    DEL_FLG,
+		    DECODE(DEL_FLG, '1', 'Deleted', 'Active') DEL_FLG_TEXT,
+		    TO_CHAR(CREATE_DATE, 'YYYY/MM/DD HH24:MI:SS')     CREATE_DATE,
+		    CREATE_USER,
+		    TO_CHAR(UPDATE_DATE, 'YYYY/MM/DD HH24:MI:SS')     UPDATE_DATE,
+		    UPDATE_USER
+		FROM
+		    USERS
+		WHERE 1 = 1
+		<if test="user.userName != null">
+		    AND USER_NAME LIKE #{user.userName}
+    	</if>
+  </select>
+  <select id="selectByPK" parameterType="java.lang.String" resultMap="ResultUserMap">
+		SELECT
+		    USER_ID,
+		    USER_NAME,
+		    PASSWORD,
+		    EMAIL,
+		    ROLE,
+		    TO_CHAR(LAST_LOGIN_DATE, 'YYYY/MM/DD HH24:MI:SS') LAST_LOGIN_DATE,
+		    LANG,
+		    DEL_FLG,
+		    DECODE(DEL_FLG, '1', 'Deleted', 'Active') DEL_FLG_TEXT,
+		    TO_CHAR(CREATE_DATE, 'YYYY/MM/DD HH24:MI:SS')     CREATE_DATE,
+		    CREATE_USER,
+		    TO_CHAR(UPDATE_DATE, 'YYYY/MM/DD HH24:MI:SS')     UPDATE_DATE,
+		    UPDATE_USER
+		FROM
+		    USERS
+		WHERE USER_ID = #{userID}
+  </select>
+</mapper>

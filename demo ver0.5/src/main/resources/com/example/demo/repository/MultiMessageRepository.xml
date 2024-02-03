@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.MultiMessageRepository">
+  <resultMap id="messageMap" type="com.example.demo.bean.MappingObject">
+    <id column="KEY" jdbcType="VARCHAR" property="key" />
+    <association resultMap="message" property="value" />
+  </resultMap>
+  <resultMap id="message" type="com.example.demo.bean.MultiMessage">
+    <id column="KEY" jdbcType="VARCHAR" property="key" />
+    <result column="MESSAGE_ID" jdbcType="VARCHAR" property="messageID"/>
+    <result column="LANG" jdbcType="VARCHAR" property="lang"/>
+    <result column="VALUE" jdbcType="VARCHAR" property="message"/>
+  </resultMap>
+  <select id="select" resultMap="messageMap">
+		SELECT
+		    MESSAGE_ID || LANG KEY,
+		    MESSAGE_ID,
+		    LANG,
+		    MESSAGE VALUE
+		FROM
+		    MESSAGE
+  </select>
+</mapper>

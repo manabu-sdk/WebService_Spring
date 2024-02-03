@@ -1,0 +1,16 @@
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.login','en','User ID or password is incorrect.');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.reLogin','en','You were logged out or a session timeout occurred, please log back in.');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.system','en','A system error has been detected. Please contact your system administrator immediately!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.insert','en','User registration failed!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.update','en','User update failed!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.delete','en','Physical deletion of user failed!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.delete2','en','Logical deletion of user failed!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.query','en','Search for user failed!');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.login','ja','ユーザーIDまたはパスワードが正しくありません。');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.reLogin','ja','ログアウトされたか、セッションタイムアウトが発生しました、ログインし直してください。');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.system','ja','システムエラーが検知されました。至急、システム管理者にご連絡下さい！');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.insert','ja','ユーザーの登録が失敗しました！');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.update','ja','ユーザーの更新が失敗しました！');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.delete','ja','ユーザーの物理削除が失敗しました！');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.delete2','ja','ユーザーの論理削除が失敗しました！');
+Insert into MESSAGE (MESSAGE_ID,LANG,MESSAGE) values ('error.user.query','ja','ユーザーの検索が失敗しました！');
