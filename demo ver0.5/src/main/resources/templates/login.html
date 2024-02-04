@@ -26,6 +26,7 @@
 	                // サーバーからの応答をコンソールに表示
 	                console.log('サーバーからの応答:', response);
 	                if(response != "" && response.lang != ""){
+	                	// language要素の値を更新する
 	                	$("#language").find("option[value='" + response.lang + "']").prop("selected", true);
 	                }
 	            },
