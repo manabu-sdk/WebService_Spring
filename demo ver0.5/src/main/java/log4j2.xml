@@ -17,7 +17,7 @@
         </RollingFile>
     </appenders>
     <loggers>
-		<logger name="com.example.demo.repository" level="trace" />
+		<logger name="com.example.demo.repository" level="info" />
         <root level="info">
             <appender-ref ref="Console" />
             <appender-ref ref="File" />
