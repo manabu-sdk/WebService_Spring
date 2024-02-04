@@ -2,14 +2,12 @@ package com.example.demo.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Locale;
 
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
@@ -101,6 +99,7 @@ public class LoginController {
         String userID = request.getParameter("userID");
         
 		if (userID != null && !"".equals(userID)) {
+			// ユーザー情報の利用言語を取得する
 			User user = userService.selectUserByPK(userID);
 			if (user != null) {
 				lang = user.getLang();
@@ -108,7 +107,7 @@ public class LoginController {
 		}
 		
         if (lang != null && !lang.isEmpty()) {
-            // サーバー側の処理例（ここでは単純にユーザーIDをJSON形式で返す）
+            // サーバー側の処理例（ここでは単純に利用言語をJSON形式で返す）
             String jsonResponse = "{\"success\": true, \"lang\": \"" + lang + "\"}";
             PrintWriter out = response.getWriter();
             out.print(jsonResponse);
